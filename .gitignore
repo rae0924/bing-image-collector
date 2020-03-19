@@ -1,6 +1,7 @@
 __pycache__/
 venv/
 data/
+bing_image_collector.egg-info/
 
 *.pyc
 *.json

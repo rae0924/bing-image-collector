@@ -21,7 +21,9 @@ class BingImageCollector(object):
         clear_root=False        # clears root directory before process
         ):
         
-        print(clear_root)
+        if not isinstance(num, int):
+            num = int(num)
+
         if clear_root:
             shutil.rmtree(root_dir)
 
