@@ -1,5 +1,6 @@
 import os
 from multiprocessing.dummy import Pool as ThreadPool
+import socket
 import itertools
 import urllib.request
 import array
@@ -29,12 +30,15 @@ class ImageDownloader(object):
         image_file_name = str(count) + '_' + os.path.basename(save_dir) + '.jpg'
         image_path = os.path.join(save_dir, image_file_name)
         try:
-            response = urllib.request.urlopen(url)
+            response = urllib.request.urlopen(url, timeout=15)
         except urllib.error.HTTPError as err:
             print(f'HTTP Error: {err.reason}\n url: {url}')
             return
         except urllib.error.URLError as err:
             print(f'Urlopen Error: {err.reason}\n url: {url}')
+            return
+        except socket.timeout as err:
+            print(f'Socket Timeout: Response took more than 15 seconds \n url: {url}')
             return
         with open(image_path, 'wb') as image_file:
             image_file.write(response.read())
